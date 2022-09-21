@@ -7,26 +7,20 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class PessoaService {
-    PessoaDAO bdPessoa = new PessoaDAO();
 
     public void inserir(Pessoa pessoa) {
-        try{
-            bdPessoa.inserir(pessoa);
-        } catch (SQLException err){
-            JOptionPane.showMessageDialog(null, "Erro: " + err.getMessage());
-            System.out.println(err.getMessage());
-        }
+        new PessoaDAO().inserir(pessoa);
     }
 
     public void remover(Pessoa pessoa) {
-        bdPessoa.remover(pessoa);
+        new PessoaDAO().remover(pessoa);
     }
 
     public Pessoa selecionarPorCPF(String CPF) {
-        return bdPessoa.selecionarPorCPF(CPF);
+        return new PessoaDAO().selecionarPorCPF(CPF);
     }
 
-    public Pessoa selecionarPorEmail(String email){
-        return bdPessoa.selecionarPorEmail(email);
+    public Pessoa selecionarPorEmail(String email) {
+        return new PessoaDAO().selecionarPorEmail(email);
     }
 }

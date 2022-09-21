@@ -2,7 +2,6 @@ package br.senai.sc.livros.model.factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class ConexaoFactory {
     private String url = "jdbc:mysql://localhost:3306/conecteLivros";
@@ -15,6 +14,5 @@ public class ConexaoFactory {
         } catch (Exception e) {
             throw new RuntimeException("Erro na conexão");
         }
-
     }
 }

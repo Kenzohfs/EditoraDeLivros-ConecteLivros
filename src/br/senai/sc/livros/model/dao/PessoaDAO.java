@@ -31,7 +31,7 @@ public class PessoaDAO {
                 "diretor@", Genero.MASCULINO, "123"));
     }
 
-    public void inserir(Pessoa pessoa) throws SQLException {
+    public void inserir(Pessoa pessoa) {
         String sqlCommand = "INSERT INTO PESSOAS (cpf, nome, sobrenome, email, genero, senha, tipo) values (?, ?, ?, ?, ?, ?, ?);";
         try (PreparedStatement pstm = conn.prepareStatement(sqlCommand)) {
             pstm.setString(1, pessoa.getCPF());
@@ -59,10 +59,20 @@ public class PessoaDAO {
     }
 
     public Pessoa selecionarPorCPF(String CPF) {
-        for (Pessoa pessoa : listaPessoas) {
-            if (pessoa.getCPF().equals(CPF)) return pessoa;
+        String sql = "SELECT * FROM PESSOAS WHERE cpf = ?";
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, CPF);
+            try (ResultSet resultSet = pstm.executeQuery()) {
+                if (resultSet.next()) {
+                    return extrairObjeto(resultSet);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Erro na execução do comando SQL");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro na preparação do comando SQL");
         }
-        throw new RuntimeException("CPF não encontrado!");
+        throw new RuntimeException("Algo deu ruim");
     }
 
     public Pessoa selecionarPorEmail(String email) {
@@ -90,7 +100,7 @@ public class PessoaDAO {
                     resultSet.getString("sobrenome"),
                     resultSet.getString("email"),
                     resultSet.getString("senha"),
-                    resultSet.getString("genero"),
+                    resultSet.getInt("genero"),
                     resultSet.getInt("tipo")
             );
         } catch (Exception e) {
