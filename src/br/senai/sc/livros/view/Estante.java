@@ -34,7 +34,6 @@ public class Estante extends JFrame {
             if (row != -1) {
                 int isbn = (int) tabelaLivros.getValueAt(row, 0);
                 Livro livro = livrosController.selecionarPorISBN(isbn);
-
                 if (usuario instanceof Autor) {
                     livrosController.atualizarStatus(livro, Status.AGUARDANDO_REVISAO);
                     JOptionPane.showMessageDialog(null, "Livro editado com sucesso!");
@@ -42,6 +41,7 @@ public class Estante extends JFrame {
                     new Estante(option);
                 } else {
                     //Revisor ou Diretor, irá separar dentro da função
+
                     new CadastroLivro(usuario, livro);
                 }
 
@@ -54,9 +54,8 @@ public class Estante extends JFrame {
 
     private void criarComponentes() {
         LivrosController livrosController = new LivrosController();
-
+        System.out.println("Opção: " + opcaoEstante);
         if (opcaoEstante == 1) {
-            editarButton.setVisible(false);
             tabelaLivros.setModel(new DefaultTableModelArrayList(livrosController.getAllLivros()));
         } else {
             tabelaLivros.setModel(new DefaultTableModelArrayList(livrosController.listarAtividades()));

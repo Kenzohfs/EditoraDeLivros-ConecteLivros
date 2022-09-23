@@ -1,9 +1,6 @@
 package br.senai.sc.livros.model.factory;
 
-import br.senai.sc.livros.model.entities.Autor;
-import br.senai.sc.livros.model.entities.Diretor;
-import br.senai.sc.livros.model.entities.Pessoa;
-import br.senai.sc.livros.model.entities.Revisor;
+import br.senai.sc.livros.model.entities.*;
 
 public class PessoaFactory {
     public Pessoa getPessoa(String cpf, String nome, String sobrenome, String email, String senha, Integer genero, Integer tipo) {

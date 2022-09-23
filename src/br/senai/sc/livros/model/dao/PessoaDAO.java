@@ -14,21 +14,8 @@ import java.util.Set;
 public class PessoaDAO {
     private Connection conn;
 
-    private static final Set<Pessoa> listaPessoas = new HashSet<>();
-
     public PessoaDAO() {
         this.conn = new ConexaoFactory().connectDB();
-    }
-
-    static {
-        listaPessoas.add(new Autor("12435678", "autor", "Rafaellizin",
-                "autor@", Genero.MASCULINO, "123"));
-        listaPessoas.add(new Revisor("12435678", "revisor", "Rafaellizin",
-                "revisor@", Genero.MASCULINO, "123"));
-        listaPessoas.add(new Revisor("12435678", "Revisor2", "Rafaellizin",
-                "revisor2@", Genero.MASCULINO, "123"));
-        listaPessoas.add(new Diretor("12435678", "diretor", "Rafaellizin",
-                "diretor@", Genero.MASCULINO, "123"));
     }
 
     public void inserir(Pessoa pessoa) {
@@ -55,7 +42,17 @@ public class PessoaDAO {
     }
 
     public void remover(Pessoa pessoa) {
-        listaPessoas.remove(pessoa);
+        String sqlCommand = "DELETE FROM PESSOAS WHERE cpf = ?;";
+        try (PreparedStatement pstm = conn.prepareStatement(sqlCommand)) {
+            pstm.setString(1, pessoa.getCPF());
+            try {
+                pstm.execute();
+            } catch (Exception e) {
+                throw new RuntimeException("Erro na execução do comando SQL");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro na preparação do comando SQL");
+        }
     }
 
     public Pessoa selecionarPorCPF(String CPF) {

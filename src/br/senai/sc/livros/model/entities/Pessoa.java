@@ -21,6 +21,10 @@ public abstract class Pessoa {
         this.senha = senha;
     }
 
+    public Pessoa() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         Pessoa outraPessoa = (Pessoa) o;

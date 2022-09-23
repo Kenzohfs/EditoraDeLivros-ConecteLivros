@@ -20,7 +20,7 @@ public class CadastroLivro extends JFrame implements ActionListener{
 
     private static Pessoa usuario;
     private static Livro livro;
-    CadastroLivro(Pessoa pessoa, Livro livrozada) {
+    public CadastroLivro(Pessoa pessoa, Livro livrozada) {
         usuario = pessoa;
         livro = livrozada;
         criarComponentes();

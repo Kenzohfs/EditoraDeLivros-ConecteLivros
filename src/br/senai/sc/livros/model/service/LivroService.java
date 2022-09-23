@@ -35,8 +35,8 @@ public class LivroService {
         if(usuario instanceof Autor){
             return bdLivro.selecionarPorAutor(usuario);
         } else if(usuario instanceof Revisor){
-            Collection<Livro> livros = bdLivro.selecionarPorStatus(Status.AGUARDANDO_REVISAO);
-            livros.addAll(bdLivro.selecionarPorStatus(Status.EM_REVISAO));
+            Collection<Livro> livros = bdLivro.selecionarPorStatus(Status.AGUARDANDO_REVISAO, usuario); //listar livros
+//            livros.addAll(bdLivro.selecionarPorStatus(Status.EM_REVISAO)); //listar atividades/*/
             return livros;
         } else {
             return bdLivro.getAllLivros();
@@ -48,7 +48,7 @@ public class LivroService {
     }
 
     public Collection<Livro> selecionarPorStatus(Status status) {
-        return bdLivro.selecionarPorStatus(status);
+        return bdLivro.selecionarPorStatus(status, Menu.getUsuario());
     }
 
     public Collection<Livro> selecionarAtividadesAutor(Pessoa pessoa) {
@@ -59,12 +59,9 @@ public class LivroService {
         if(pessoa instanceof Autor){
             return selecionarAtividadesAutor(pessoa);
         } else if(pessoa instanceof Revisor){
-            Collection<Livro> livros = bdLivro.selecionarPorStatus(Status.AGUARDANDO_REVISAO);
-            for(Livro livro : bdLivro.selecionarPorStatus(Status.EM_REVISAO)){
-                if(livro.getRevisor() == pessoa){
-                    livros.add(livro);
-                }
-            }
+            System.out.println("Revisor");
+            Collection<Livro> livros = bdLivro.selecionarAtividadesRevisor(pessoa);
+            System.out.println(livros);
             return livros;
         } else {
             return selecionarPorStatus(Status.APROVADO);
@@ -72,7 +69,7 @@ public class LivroService {
     }
 
     public Livro selecionarPorISBN(int isbn){
-        for(Livro livro : getAllLivros()){
+        for(Livro livro : listarAtividades(new Diretor())){
             if(livro.getISBN() == isbn){
                 return livro;
             }

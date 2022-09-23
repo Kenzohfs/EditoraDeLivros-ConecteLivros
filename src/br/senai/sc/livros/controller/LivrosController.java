@@ -27,7 +27,7 @@ public class LivrosController {
 
     public Collection<Livro> getAllLivros(){
         return new LivroService().getAllLivros();
-    };
+    }
 
     public Collection<Livro> selecionarPorAutor(){
         return new LivroService().selecionarPorAutor(Menu.getUsuario());
